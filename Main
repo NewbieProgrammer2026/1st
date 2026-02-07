@@ -1,7 +1,43 @@
-let a = 100
-let b = 200
-const c = a / b
-console.log(a * b) * c
-let firstStr = 'Hello'
-let secondStr = 'Michael'
-let thirdStr = firstStr.concat(' ' + secondStr + '!') 
+import random
+import sys
+
+PASSWORDS = [
+    'dragon', 'matrix', 'phoenix', 'orion', 'neptune', 'aurora', 'quantum', 'nebula'
+]
+
+def scramble(s: str) -> str:
+    arr = list(s)
+    random.shuffle(arr)
+    return ''.join(arr)
+
+def main() -> int:
+    random.seed()
+    password = random.choice(PASSWORDS)
+    attempts = 4
+    print("=== Terminal Hack Sim ===")
+    print(f"Guess the password. You have {attempts} attempts.")
+    print("Password scramble hint:", scramble(password))
+
+    for i in range(attempts):
+        try:
+            guess = input(f"[{i+1}/{attempts}] Enter guess: ").strip()
+        except (EOFError, KeyboardInterrupt):
+            print('\nGoodbye.')
+            return 1
+
+        if guess == password:
+            print('\nACCESS GRANTED')
+            print('Welcome, operator.')
+            return 0
+        else:
+            remaining = attempts - i - 1
+            print('ACCESS DENIED. Attempts left:', remaining)
+            if remaining:
+                print('Small hint: first letter is', password[0])
+
+    print('\nSYSTEM LOCKED. The password was:', password)
+    return 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())
